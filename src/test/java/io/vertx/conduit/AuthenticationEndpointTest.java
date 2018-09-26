@@ -19,12 +19,6 @@ public class AuthenticationEndpointTest {
   @DisplayName("Successful Authentication Test")
   void testSuccessfulAuthentication(Vertx vertx, VertxTestContext testContext) throws InterruptedException {
 
-    JsonObject loginArg = new JsonObject()
-      .put("user", new JsonObject()
-          .put("email", "jake@jake.jake")
-          .put("password", "jakejake")
-      );
-
     vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> {
       WebClient webClient = WebClient.create(vertx);
       webClient.post(8080, "localhost", "/api/users/login")
