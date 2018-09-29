@@ -15,7 +15,7 @@
     <!-- HSQLDB -->
     <hsqldb.version>2.3.4</hsqldb.version>
     <!-- Flyway Database Migrations -->
-    <flyway.url>jdbc:hsqldb:file:db/spike</flyway.url>
+    <flyway.url>jdbc:hsqldb:file:db/conduit</flyway.url>
     <flyway.driver>org.hsqldb.jdbcDriver</flyway.driver>
     <flyway.locations>filesystem:src/main/resources/db/migrations</flyway.locations>
     <!-- Testing Dependencies -->

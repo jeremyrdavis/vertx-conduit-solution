@@ -21,7 +21,6 @@ class MainVerticleTest {
 
   @Test
   @DisplayName("Server Started Test")
-  @Timeout(5000)
   void testServerStart(Vertx vertx, VertxTestContext testContext) {
     WebClient webClient = WebClient.create(vertx);
 
