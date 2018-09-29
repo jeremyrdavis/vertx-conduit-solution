@@ -3,16 +3,28 @@ package io.vertx.conduit;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.jdbc.JDBCAuth;
+import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 
 public class MainVerticle extends AbstractVerticle {
 
+  private JDBCAuth authProvider;
+
+  private JDBCClient jdbcClient;
+
   @Override
   public void start(Future<Void> future) {
+
+    jdbcClient = JDBCClient.createShared(vertx, new JsonObject()
+      .put("url", "jdbc:hsqldb:file:db/wiki")
+      .put("driver_class", "org.hsqldb.jdbcDriver")
+      .put("max_pool_size", 30));
+
+    authProvider = JDBCAuth.create(vertx, jdbcClient);
 
     Router baseRouter = Router.router(vertx);
     baseRouter.route("/").handler(this::indexHandler);
@@ -58,7 +70,10 @@ public class MainVerticle extends AbstractVerticle {
         .end(returnValue.toString());
 
     }else{
-      context.response().setStatusCode(401).end("Go away");
+      context.response()
+        .setStatusCode(401)
+        .putHeader("Content-Type", "text/html")
+        .end("Go away");
     }
   }
 
